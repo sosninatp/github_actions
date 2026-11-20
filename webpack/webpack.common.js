@@ -13,8 +13,10 @@ module.exports = {
 		filename: production
 			? 'static/scripts/[name].[contenthash].js'
 			: 'static/scripts/[name].js', // имя нашего бандла
-		publicPath: '/',
-		chunkFilename: 'static/scripts/[name].[contenthash].bundle.js'
+		// publicPath: '/',
+		publicPath: process.env.PUBLIC_PATH ? process.env.PUBLIC_PATH : '/', // указываем путь, который будет добавляться перед подключением файлов
+
+		chunkFilename: 'static/scripts/[name].[contenthash].bundle.js',
 	},
 	//Нужно помочь вебпаку научится работать с jsx и tsx файлами для этого используют ts loader
 	module: {
@@ -89,7 +91,31 @@ module.exports = {
 				: 'static/styles/[name].css',
 		}),
 		new webpack.EnvironmentPlugin({
+			PUBLIC_PATH: null, // значение по умолчанию null, если переменная process.env.PUBLIC_PATH не передана
+
 			NODE_ENV: 'development', // значение по умолчанию 'development' если переменная process.env.NODE_ENV не передана
 		}),
 	],
 };
+
+////
+/*
+
+// webpack.common.js
+
+output: {
+    path: path.resolve(__dirname, '..', './dist'), // путь, по которому будет собираться наш проект
+    filename: production
+        ? 'static/scripts/[name].[contenthash].js'
+        : 'static/scripts/[name].js', // имя нашего бандла
+    publicPath: process.env.PUBLIC_PATH ? process.env.PUBLIC_PATH : '/', // указываем путь, который будет добавляться перед подключением файлов
+    chunkFilename: 'static/scripts/[name].[contenthash].bundle.js'
+},
+...
+plugins: [
+    new webpack.EnvironmentPlugin({
+            PUBLIC_PATH: null, // значение по умолчанию null, если переменная process.env.PUBLIC_PATH не передана
+            NODE_ENV: 'development', // значение по умолчанию 'development', если переменная process.env.NODE_ENV не передана
+        }),
+] 
+*/

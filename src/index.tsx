@@ -10,9 +10,22 @@ const root = createRoot(domNode);
 root.render(
 	<StrictMode>
 		<Analytic.Provider value={{ yandexId: 96728508, googleId: 'G-ZXWBHB1NR0' }}>
-			<BrowserRouter>
+			<BrowserRouter
+				basename={process.env.PUBLIC_PATH ? process.env.PUBLIC_PATH : '/'} 
+			>
 				<App />
 			</BrowserRouter>
 		</Analytic.Provider>
 	</StrictMode>
 );
+
+
+////Чтобы сайт не открылся белым экраном после деплоя, 
+// убедись, что перед пушем ты также добавила PUBLIC_PATH в:
+// 1. src/index.tsx — проп 
+// basename={process.env.PUBLIC_PATH ? process.env.PUBLIC_PATH : '/'} 
+// у <BrowserRouter>.
+
+// 2. webpack/webpack.common.js — в output.publicPath 
+// и в new webpack.EnvironmentPlugin({ PUBLIC_PATH: null, ... }).
+

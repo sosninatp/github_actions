@@ -33,3 +33,10 @@ declare module '*.module.sass' {
 	const classes: { [key: string]: string };
 	export default classes;
 }
+
+declare const process: {
+  env: {
+    PUBLIC_PATH?: string;
+    NODE_ENV?: string;
+  };
+};
